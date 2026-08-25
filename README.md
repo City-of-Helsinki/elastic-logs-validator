@@ -16,14 +16,14 @@ A lightweight Python validation tool for Elasticsearch data streams. It enforces
 
 ## Installation
 
-Requires **Python 3.10+** and access to an Elasticsearch 8.x cluster.
+Requires **Python 3.10+** and [Hatch](https://hatch.pypa.io/latest/)
 
 ```bash
-git clone [https://github.com/your-org/elastic-logs-validator.git](https://github.com/your-org/elastic-logs-validator.git)
+git clone [https://github.com/City-of-Helsinki/elastic-logs-validator](https://github.com/City-of-Helsinki/elastic-logs-validator)
 cd elastic-logs-validator
 
-# Install dependencies using Pipenv, Poetry, or pip
-pip install -r requirements.txt
+# Environment setup and dependencies are handled automatically by Hatch
+hatch env create
 ```
 
 ---
