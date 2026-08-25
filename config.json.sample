@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "default_stale": 24,
+  "default_min_docs_per_window": 30,
+  "streams": [
+      {
+        "stream": "*-dev-v1",
+        "stale": 168,
+        "min_docs_per_window": 30
+      }
+  ]
+}

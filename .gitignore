@@ -1,0 +1,7 @@
+.mypy_cache
+.ruff_cache
+.venv
+reports
+.env
+config.json
+__pycache__

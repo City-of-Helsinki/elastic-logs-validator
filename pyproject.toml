@@ -1,0 +1,129 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "elastic-logs-validator"
+authors = [{ name = "City of Helsinki", email = "dev@hel.fi" }]
+description = "Utility that validates elastic log streams."
+readme = "README.md"
+version = "0.0.1"
+keywords=[
+    "logging",
+    "extra tools",
+]
+classifiers=[
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
+license = "MIT"
+license-files = ["LICENSE"]
+dependencies = ["elasticsearch8", "python-dotenv", "jsonschema", "types-jsonschema"]
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-cov",
+    "coverage-enable-subprocess",
+    "coverage[toml]",
+    "pytest-randomly",
+    "pytest-rerunfailures",
+    "pytest-xdist[psutil]",
+    "freezegun",
+]
+all = ["elastic-logs-validator[test]"]
+
+[project.urls]
+Homepage = "https://github.com/City-of-Helsinki/elastic-logs-validator"
+Issues = "https://github.com/City-of-Helsinki/elastic-logs-validator/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["elastic_logs_validator"]
+
+[tool.hatch.version]
+path = "elastic_logs_validator/__init__.py"
+
+[tool.hatch.envs.default]
+dependencies = [
+    "pre-commit",
+]
+features = ["all"]
+python = "3.10"
+type = "virtual"
+path = ".venv"
+
+[tool.hatch.envs.default.scripts]
+start = "python -m elastic_logs_validator.main {args}"
+test = "pytest {args}"
+lint = [
+    "pre-commit install",
+    "pre-commit run -a",
+]
+manage = "python tests/manage.py {args}"
+
+[tool.hatch.envs.hatch-test]
+default-args = ["tests"]
+features = ["all"]
+matrix-name-format = "dj{value}"
+parallel = false
+randomize = true
+
+[[tool.hatch.envs.hatch-test.matrix]]
+python = ["3.10", "3.11", "3.12"]
+
+[[tool.hatch.envs.hatch-test.matrix]]
+python = ["3.13"]
+
+[[tool.hatch.envs.hatch-test.matrix]]
+python = ["3.14"]
+
+
+[tool.hatch.envs.hatch-test.scripts]
+run = [
+    "pytest{env:HATCH_TEST_ARGS:} {args}",
+]
+run-cov = "coverage run -m pytest{env:HATCH_TEST_ARGS:} {args}"
+cov-combine = "coverage combine"
+cov-report = "coverage report"
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests",
+]
+pythonpath = "."
+
+[tool.ruff]
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+    # Pyflakes
+    "F",
+    # pycodestyle
+    "E",
+    "W",
+    # isort
+    "I",
+    # pep8-naming
+    "N",
+    # flake8-bugbear without opinionated rules
+    "B0",
+    # flake8-pie
+    "PIE",
+    # flake8-print
+    "T20",
+]
+extend-per-file-ignores = { "*/migrations/*" = ["E501"], "*/tests/*" = ["E501"] }
+
+[tool.coverage.run]
+source = ["elastic_logs_validator"]
+omit = ["elastic_logs_validator/migrations/*", "*/tests/*"]

@@ -1,0 +1,45 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "required": ["default_stale", "streams"],
+    "properties": {
+        "version": {
+            "type": "integer",
+            "description": "Config format version for backward compatibility tracking."
+        },
+        "default_stale": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Default staleness threshold in hours."
+        },
+        "default_min_docs_per_window": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Default minimum required document count over a 7-day window across streams."
+        },
+        "streams": {
+            "type": "array",
+            "description": "List of monitored data streams.",
+            "minItems": 1,
+            "items": {
+                "type": "object",
+                "required": ["stream"],
+                "properties": {
+                    "stream": {"type": "string"},
+                    "stale": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Staleness threshold in hours."
+                    },
+                    "min_docs_per_window": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "Stream-specific minimum required document count for the weekly check window."
+                    }
+                },
+                "additionalProperties": false
+            }
+        }
+    },
+    "additionalProperties": false
+}
