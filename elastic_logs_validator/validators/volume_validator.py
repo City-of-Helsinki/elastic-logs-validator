@@ -1,6 +1,6 @@
+import fnmatch
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
-import fnmatch
 
 from elasticsearch8 import Elasticsearch
 
@@ -32,21 +32,19 @@ class StreamVolumeValidator:
     def __init__(self, client: Elasticsearch) -> None:
         self.client = client
 
-    def _resolve_target_min(
-            self, stream_name: str, config: AppConfig
-        ) -> int | None:
-            """
-            Resolves min_weekly_docs for a concrete stream name.
-            Matches exact names or fnmatch wildcard patterns defined in AppConfig.
-            """
-            # 1. Look for explicit or wildcard stream matches in config.streams
-            for stream_cfg in config.streams:
-                if fnmatch.fnmatch(stream_name, stream_cfg.stream):
-                    if stream_cfg.min_docs_per_window is not None:
-                        return stream_cfg.min_docs_per_window
+    def _resolve_target_min(self, stream_name: str, config: AppConfig) -> int | None:
+        """
+        Resolves min_weekly_docs for a concrete stream name.
+        Matches exact names or fnmatch wildcard patterns defined in AppConfig.
+        """
+        # 1. Look for explicit or wildcard stream matches in config.streams
+        for stream_cfg in config.streams:
+            if fnmatch.fnmatch(stream_name, stream_cfg.stream):
+                if stream_cfg.min_docs_per_window is not None:
+                    return stream_cfg.min_docs_per_window
 
-            # 2. Fall back to global default if no stream-level override matched
-            return config.default_min_docs_per_window
+        # 2. Fall back to global default if no stream-level override matched
+        return config.default_min_docs_per_window
 
     def validate_streams(
         self,

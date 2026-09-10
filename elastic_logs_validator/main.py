@@ -271,9 +271,7 @@ def main() -> None:
 
     volume_validator = StreamVolumeValidator(client=client)
     volume_report = volume_validator.validate_streams(
-        stream_names=list(samples.keys()),
-        window_days=7,
-        config=config
+        stream_names=list(samples.keys()), window_days=7, config=config
     )
 
     print_age_report(age_report)
