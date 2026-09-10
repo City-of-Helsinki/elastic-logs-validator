@@ -1,5 +1,6 @@
 import json
 import os
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -86,3 +87,19 @@ def load_config(config_path: Path | str, schema: dict[str, Any]) -> AppConfig:
         ) from e
 
     return AppConfig.from_dict(raw_data)
+
+
+def parse_es_timestamp(raw_ts: str | None) -> datetime | None:
+    if not raw_ts:
+        return None
+    try:
+        ts_str = str(raw_ts)
+        if ts_str.endswith("Z"):
+            ts_str = ts_str[:-1] + "+00:00"
+
+        dt = datetime.fromisoformat(ts_str)
+        if dt.tzinfo is None:
+            return dt.replace(tzinfo=timezone.utc)
+        return dt.astimezone(timezone.utc)
+    except (ValueError, TypeError):
+        return None

@@ -106,7 +106,7 @@ def print_age_report(report: AgeValidationReport) -> None:
             s.name,
             age_str,
             thresh_str,
-            s.last_seen,
+            s.last_seen_str,
         )
 
     for s in report.stale:
@@ -119,7 +119,7 @@ def print_age_report(report: AgeValidationReport) -> None:
             s.name,
             age_str,
             thresh_str,
-            s.last_seen,
+            s.last_seen_str,
         )
 
     for name in report.empty:
@@ -196,7 +196,7 @@ def print_volume_report(report: VolumeValidationReport) -> None:
         "Total: %d | Passed: %d | Failed: %d",
         report.total_streams,
         report.total_streams - report.failed_streams,
-        report.failed_streams
+        report.failed_streams,
     )
 
     sorted_results = sorted(

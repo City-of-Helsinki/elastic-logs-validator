@@ -10,7 +10,14 @@ class AgeEvaluatedStream:
     name: str
     age: float  # Age in hours
     stale: float  # Applied threshold in hours
-    last_seen: str  # ISO 8601 timestamp string
+    last_seen_ts: datetime | None
+
+    @property
+    def last_seen_str(self) -> str:
+        if not self.last_seen_ts:
+            return "NEVER"
+
+        return self.last_seen_ts.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
 
 
 @dataclass
@@ -49,17 +56,14 @@ class StreamAgeValidator:
                 continue
 
             threshold_hours = self._resolve_threshold(stream_name, config_map)
-            latest_ts = datetime.fromisoformat(
-                state.last_seen_ts.replace("Z", "+00:00")
-            )
-            age_seconds = (now - latest_ts).total_seconds()
-            age_hours = round(age_seconds / 3600.0, 2)
+            age_seconds = (now - state.last_seen_ts).total_seconds()
+            age_hours = round(max(0.0, age_seconds) / 3600.0, 2)
 
             entry = AgeEvaluatedStream(
                 name=stream_name,
                 age=age_hours,
                 stale=threshold_hours,
-                last_seen=state.last_seen_ts,
+                last_seen_ts=state.last_seen_ts,
             )
 
             if age_seconds > (threshold_hours * 3600):

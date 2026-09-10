@@ -3,6 +3,8 @@ from typing import Any
 
 from elasticsearch8 import Elasticsearch, NotFoundError
 
+from elastic_logs_validator.utils import parse_es_timestamp
+
 from .types import StreamConfig, StreamState
 
 
@@ -111,7 +113,7 @@ class StreamMetadataCollector:
             state_map[stream_name] = StreamState(
                 name=stream_name,
                 exists=True,
-                last_seen_ts=raw_ts,
+                last_seen_ts=parse_es_timestamp(raw_ts),
                 doc_count=doc_count,
             )
 
@@ -148,7 +150,7 @@ class StreamMetadataCollector:
             states[stream] = StreamState(
                 name=stream,
                 exists=True,
-                last_seen_ts=raw_ts,
+                last_seen_ts=parse_es_timestamp(raw_ts),
                 doc_count=doc_count,
             )
 

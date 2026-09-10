@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from datetime import datetime
 from typing import Any
 
 
@@ -8,7 +9,7 @@ class StreamState:
 
     name: str
     exists: bool = True
-    last_seen_ts: str | None = None
+    last_seen_ts: datetime | None = None
     doc_count: int = 0
     health_status: str | None = None  # GREEN, YELLOW, RED
 
