@@ -17,6 +17,10 @@
             "minimum": 0,
             "description": "Default minimum required document count over a 7-day window across streams."
         },
+        "default_sample_size": {
+            "type": "integer",
+            "description": "Default number of how many stream entries are sampled."
+        },
         "streams": {
             "type": "array",
             "description": "List of monitored data streams.",
@@ -30,6 +34,10 @@
                         "type": "number",
                         "minimum": 0,
                         "description": "Staleness threshold in hours."
+                    },
+                    "sample_size": {
+                        "type": "integer",
+                        "description": "How many stream entries are sampled."
                     },
                     "min_docs_per_window": {
                         "type": "integer",

@@ -3,7 +3,7 @@ from typing import Any
 
 from elasticsearch8 import Elasticsearch
 
-from .types import StreamSample, StreamState
+from .types import AppConfig, StreamSample, StreamState
 
 
 class StreamSampler:
@@ -15,7 +15,7 @@ class StreamSampler:
     def sample(
         self,
         state_map: dict[str, StreamState],
-        sample_size: int = 3,
+        config: AppConfig,
         seed: int | None = None,
     ) -> dict[str, StreamSample]:
         """
@@ -34,6 +34,9 @@ class StreamSampler:
 
         searches: list[dict[str, Any]] = []
         for stream in active_streams:
+            sample_size = config.resolve(
+                stream, lambda s: s.sample_size, config.default_sample_size
+            )
             # Header
             searches.append(
                 {

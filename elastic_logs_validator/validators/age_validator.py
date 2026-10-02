@@ -2,7 +2,7 @@ import fnmatch
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 
-from ..types import StreamConfig, StreamState
+from ..types import AppConfig, StreamConfig, StreamState
 
 
 @dataclass(frozen=True)
@@ -43,10 +43,10 @@ class StreamAgeValidator:
     def validate(
         self,
         state_map: dict[str, StreamState],
-        stream_configs: list[StreamConfig],
+        config: AppConfig,
     ) -> AgeValidationReport:
         now = datetime.now(timezone.utc)
-        config_map = self._build_config_map(stream_configs)
+        config_map = self._build_config_map(config.streams)
 
         report = AgeValidationReport()
 

@@ -2,6 +2,7 @@
   "version": 1,
   "default_stale": 24,
   "default_min_docs_per_window": 30,
+  "default_sample_size": 5,
   "streams": [
       {
         "stream": "*-dev-v1",
