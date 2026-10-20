@@ -152,7 +152,7 @@ class StreamTypeValidator:
 
     TYPE_CHECKERS = {
         # Allow ints alongside strings for keyword if numeric IDs are present
-        "keyword": lambda v: isinstance(v, (str, int)),
+        "keyword": lambda v: isinstance(v, (str, int)) and not isinstance(v, bool),
         "text": lambda v: isinstance(v, str),
         "long": lambda v: isinstance(v, int) and not isinstance(v, bool),
         "integer": lambda v: isinstance(v, int) and not isinstance(v, bool),
