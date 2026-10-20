@@ -35,7 +35,7 @@ def load_schema(schema_path: Path | str) -> dict[str, Any]:
             f"Schema definition file missing at path: {schema_path.resolve()}"
         )
     try:
-        with open(schema_path, "r", encoding="utf-8") as f:
+        with open(schema_path, encoding="utf-8") as f:
             return json.load(f)
     except json.JSONDecodeError as e:
         raise RuntimeError(
@@ -62,7 +62,7 @@ def load_config(config_path: Path | str, schema: dict[str, Any]) -> AppConfig:
         )
 
     try:
-        with open(config_path, "r", encoding="utf-8") as f:
+        with open(config_path, encoding="utf-8") as f:
             raw_data = json.load(f)
     except json.JSONDecodeError as e:
         raise ValueError(

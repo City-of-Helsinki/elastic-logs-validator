@@ -261,9 +261,7 @@ def main() -> None:
     samples = sampler.sample(snapshot.state_map, config=config)
 
     age_validator = StreamAgeValidator(default_stale_hours=config.default_stale)
-    age_report = age_validator.validate(
-        state_map=snapshot.state_map, config=config
-    )
+    age_report = age_validator.validate(state_map=snapshot.state_map, config=config)
 
     # 3. Validate types against live stream mapping
     type_validator = StreamTypeValidator(client=client, required_fields=required_fields)
