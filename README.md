@@ -16,7 +16,7 @@ A lightweight Python validation tool for Elasticsearch data streams. It enforces
 
 ## Installation
 
-Requires **Python 3.10+** and [Hatch](https://hatch.pypa.io/latest/)
+Requires **Python 3.11+** and [Hatch](https://hatch.pypa.io/latest/)
 
 ```bash
 git clone [https://github.com/City-of-Helsinki/elastic-logs-validator](https://github.com/City-of-Helsinki/elastic-logs-validator)
