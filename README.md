@@ -30,7 +30,7 @@ hatch env create
 
 ## Configuration (`config.json`)
 
-The validator is driven by a JSON configuration file validated against `datastream_config_schema.json`.
+The validator is driven by a JSON configuration file validated against `app_config_schema.json`.
 
 ### Config Example
 
